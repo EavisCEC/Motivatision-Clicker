@@ -1,0 +1,84 @@
+const int buttonPin = 8;
+int counter = 0;
+int i = 0;
+
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
+
+byte pickedIndex;
+void buttonWait(int buttonPin) {
+  int buttonState = 0;
+  while (1) {
+    buttonState = digitalRead(buttonPin);
+    if (buttonState == HIGH) {
+      return;
+    }
+  }
+}
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+  lcd.init();
+  lcd.clear();
+  lcd.backlight();      // Make sure backlight is on
+  
+  lcd.setCursor(2, 0);  //Set cursor to character 2 on line 0
+  lcd.print("Clicks:");
+  lcd.setCursor(2, 1);  //Move cursor to character 2 on line 1
+  lcd.print(counter);
+}
+
+void loop() {
+  int buttonState;
+  buttonState = digitalRead(buttonPin);
+
+  if (buttonState == LOW) {
+    i++;
+    counter++;
+    lcd.clear();
+    lcd.setCursor(2, 0);  //Set cursor to character 2 on line 0
+    lcd.print("Clicks:");
+    
+    lcd.setCursor(2, 1);  //Move cursor to character 2 on line 1
+    lcd.print(counter);
+    delay(150);
+  }
+
+    if (i == 10) {
+    i = 0;
+    randomSeed(analogRead(A0)*analogRead(A1));
+    int pickedIndex = random (6);
+    lcd.clear();
+    lcd.setCursor(2, 0);  //Set cursor to character 2 on line 0
+    if (pickedIndex == 1) {
+      lcd.print ("Keep it up!");
+    }
+    else if (pickedIndex == 2) {
+      lcd.print ("Wow!");
+    }
+    else if (pickedIndex == 3) {
+      lcd.print ("Good!");
+    }
+    else if (pickedIndex == 4) {
+      lcd.print ("Good job!");
+    }
+    else if (pickedIndex == 5) {
+      lcd
+.print ("Spectacular!");
+    }
+    else if (pickedIndex == 6) {
+      lcd.print ("Cool!!");
+    }
+    else {
+      lcd.print ("Great!!!");
+    }
+    delay(1000);
+    lcd.clear();
+    lcd.setCursor(2, 0);  //Set cursor to character 2 on line 0
+    lcd.print("Clicks:");
+
+    lcd.setCursor(2, 1);  //Move cursor to character 2 on line 1
+    lcd.print(counter);
+  }
+}
